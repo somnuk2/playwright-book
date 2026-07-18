@@ -12,5 +12,6 @@ test('standard user can log in from the book v1.0 auth path', async ({ page }) =
 test('locked user shows an error message from the book v1.0 auth path', async ({ page }) => {
   const login = new LoginPage(page);
   await login.goto();
+  await login.login('locked_out_user', 'secret_sauce');
   await login.expectError('locked out');
 });

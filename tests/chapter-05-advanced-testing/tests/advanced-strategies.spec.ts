@@ -22,6 +22,7 @@ test('explicit wait ใช้ยืนยันการเปลี่ยนห
 test('ตรวจผล sorting Z to A จากรายการที่ผู้ใช้เห็นบน UI', async ({ page }) => {
   await login(page);
   await page.getByTestId('product-sort').selectOption('za');
+  await expect(page.getByTestId('product-name').first()).toHaveText('Sauce Labs Fleece Jacket');
   const names = await page.getByTestId('product-name').allTextContents();
   const sorted = [...names].sort((a, b) => b.localeCompare(a));
   expect(names).toEqual(sorted);
@@ -39,6 +40,8 @@ test('parameterized login users', async ({ page }) => {
 });
 
 test.describe('mobile viewport example', () => {
+  test.skip(({ browserName }) => browserName === 'firefox', 'Firefox does not support isMobile');
+
   const { defaultBrowserType, ...iPhone13 } = devices['iPhone 13'];
   test.use(iPhone13);
 

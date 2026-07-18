@@ -9,6 +9,8 @@ export async function login(page: Page, username = 'standard_user', password = '
   await expect(page).toHaveURL(/inventory\.html/);
 }
 
+export { login as loginAsStandardUser };
+
 export async function addBackpackToCart(page: Page) {
   await page.getByRole('heading', { name: 'Sauce Labs Backpack' }).locator('..').getByTestId('add-to-cart').click();
   await expect(page.getByTestId('cart-badge')).toHaveText('1');

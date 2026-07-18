@@ -1,6 +1,8 @@
 import { test, expect, devices } from '@playwright/test';
 
 test.describe('mobile emulation', () => {
+  test.skip(({ browserName }) => browserName === 'firefox', 'Firefox does not support isMobile');
+
   const { defaultBrowserType, ...pixel5 } = devices['Pixel 5'];
   test.use({
     ...pixel5,
