@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Playwright Book Demo - Accessibility</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header><h1>Accessibility examples</h1></header>
+<main>
+  <section class="card" aria-labelledby="form-heading">
+    <h2 id="form-heading">Accessible form</h2>
+    <form data-test="a11y-form">
+      <label for="email">Email</label>
+      <input id="email" data-test="email" aria-describedby="email-help">
+      <p id="email-help">Use a valid email address.</p>
+      <button data-test="submit-form" type="submit">Submit</button>
+      <p data-test="form-message" role="alert" aria-live="polite"></p>
+    </form>
+  </section>
+  <section class="card">
+    <h2>Dialog</h2>
+    <button class="focus-ring" data-test="open-dialog">Open dialog</button>
+    <div class="dialog-backdrop" id="dialog-backdrop">
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+        <h3 id="dialog-title">Confirmation</h3>
+        <p>Keyboard users can open and close this dialog.</p>
+        <button data-test="close-dialog">Close dialog</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  const backdrop = document.querySelector('#dialog-backdrop');
+  const open = document.querySelector('[data-test="open-dialog"]');
+  const close = document.querySelector('[data-test="close-dialog"]');
+  open.addEventListener('click', () => { backdrop.setAttribute('open', ''); close.focus(); });
+  close.addEventListener('click', () => { backdrop.removeAttribute('open'); open.focus(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && backdrop.hasAttribute('open')) { backdrop.removeAttribute('open'); open.focus(); } });
+  document.querySelector('[data-test="a11y-form"]').addEventListener('submit', (event) => { event.preventDefault(); document.querySelector('[data-test="form-message"]').textContent = 'Form submitted'; });
+</script>
+</body>
+</html>

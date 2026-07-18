@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Playwright Book Demo - Inventory</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header>
+  <h1>Products</h1>
+  <nav aria-label="Main navigation">
+    <a href="/cart.html" data-test="cart-link">Cart <span data-test="cart-badge" class="cart-badge">0</span></a>
+    <a href="/terms.html" target="_blank" data-test="terms-link">Terms</a>
+    <button class="secondary" data-test="logout">Logout</button>
+  </nav>
+</header>
+<main>
+  <label for="sort">Sort products</label>
+  <select id="sort" data-test="product-sort">
+    <option value="az">Name A to Z</option>
+    <option value="za">Name Z to A</option>
+    <option value="lohi">Price low to high</option>
+    <option value="hilo">Price high to low</option>
+  </select>
+  <button class="secondary focus-ring" id="open-info" data-test="open-info">Open product information</button>
+  <section id="products" class="grid" aria-label="Product list"></section>
+</main>
+<div class="dialog-backdrop" id="info-backdrop" role="presentation">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="info-title">
+    <h2 id="info-title">Product information</h2>
+    <p>Product cards include name, price and an add-to-cart action.</p>
+    <button id="close-info" data-test="close-info">Close</button>
+  </div>
+</div>
+<script src="/app.js"></script>
+<script>
+  const user = demo.requireUser();
+  let products = [];
+  const container = document.querySelector('#products');
+  function render(items) {
+    container.innerHTML = items.map((product) => `
+      <article class="card product-card" data-test="product-card" data-product-id="${product.id}">
+        <h2 data-test="product-name">${product.name}</h2>
+        <p>${product.description}</p>
+        <p data-test="product-price" class="product-price">$${product.price.toFixed(2)}</p>
+        <button data-test="add-to-cart" data-product-id="${product.id}">Add to cart</button>
+      </article>`).join('');
+    document.querySelectorAll('[data-test="add-to-cart"]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const ids = new Set(demo.getCart());
+        ids.add(button.dataset.productId);
+        demo.setCart([...ids]);
+        button.textContent = 'Remove';
+      });
+    });
+  }
+  function sortItems(value) {
+    const items = [...products];
+    if (value === 'za') items.sort((a, b) => b.name.localeCompare(a.name));
+    if (value === 'lohi') items.sort((a, b) => a.price - b.price);
+    if (value === 'hilo') items.sort((a, b) => b.price - a.price);
+    if (value === 'az') items.sort((a, b) => a.name.localeCompare(b.name));
+    render(items);
+  }
+  document.querySelector('[data-test="product-sort"]').addEventListener('change', (event) => sortItems(event.target.value));
+  demo.loadProducts().then((items) => { products = items; sortItems('az'); demo.updateBadge(); });
+  const backdrop = document.querySelector('#info-backdrop');
+  document.querySelector('#open-info').addEventListener('click', () => { backdrop.setAttribute('open', ''); document.querySelector('#close-info').focus(); });
+  document.querySelector('#close-info').addEventListener('click', () => { backdrop.removeAttribute('open'); document.querySelector('#open-info').focus(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && backdrop.hasAttribute('open')) { backdrop.removeAttribute('open'); document.querySelector('#open-info').focus(); } });
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Playwright Book Demo - Login</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+  <header><h1>Playwright Book Demo</h1></header>
+  <main>
+    <section class="card" aria-labelledby="login-heading">
+      <h2 id="login-heading">Sign in</h2>
+      <form data-test="login-form">
+        <label for="username">Username</label>
+        <input id="username" data-test="username" autocomplete="username">
+        <label for="password">Password</label>
+        <input id="password" data-test="password" type="password" autocomplete="current-password">
+        <p data-test="error" class="error" role="alert" aria-live="polite"></p>
+        <button data-test="login-button" type="submit">Login</button>
+      </form>
+      <p>Use <code>standard_user</code> and <code>secret_sauce</code>.</p>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+:root { font-family: system-ui, sans-serif; color: #1f2937; background: #f8fafc; }
+body { margin: 0; }
+header { background: #0f172a; color: white; padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+main { max-width: 960px; margin: 2rem auto; padding: 1rem; }
+.card { background: white; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+label { display: block; margin-top: .75rem; font-weight: 600; }
+input, select, button { font: inherit; margin-top: .35rem; padding: .65rem .75rem; border: 1px solid #cbd5e1; border-radius: .5rem; }
+button { background: #2563eb; color: white; border-color: #2563eb; cursor: pointer; min-height: 42px; }
+button.secondary { background: white; color: #1f2937; border-color: #94a3b8; }
+button.danger { background: #b91c1c; border-color: #b91c1c; }
+.error { color: #b91c1c; font-weight: 600; min-height: 1.5rem; }
+.cart-badge { background: #f97316; color: white; border-radius: 999px; padding: .1rem .45rem; }
+.visually-hidden { position: absolute; left: -9999px; }
+.product-price { font-weight: 700; }
+nav a { color: white; margin-left: .75rem; }
+.dialog-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, .55); display: none; place-items: center; }
+.dialog-backdrop[open] { display: grid; }
+.dialog { background: white; color: #1f2937; border-radius: .75rem; padding: 1.25rem; max-width: 420px; }
+.focus-ring:focus { outline: 4px solid #f59e0b; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) { .product-card { transition: transform .2s ease; } .product-card:hover { transform: translateY(-2px); } }
+@media (max-width: 600px) { header { flex-direction: column; align-items: flex-start; } }

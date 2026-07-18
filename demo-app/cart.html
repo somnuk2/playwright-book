@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Playwright Book Demo - Cart</title><link rel="stylesheet" href="/styles.css"></head>
+<body><header><h1>Your cart</h1><nav><a href="/inventory.html">Products</a></nav></header><main><section class="card"><h2>Cart items</h2><div data-test="cart-items"></div><a href="/checkout.html"><button data-test="checkout">Checkout</button></a></section></main><script src="/app.js"></script><script>
+demo.requireUser(); demo.updateBadge();
+(async () => { const products = await demo.loadProducts(); const ids = demo.getCart(); const items = products.filter(p => ids.includes(p.id)); document.querySelector('[data-test="cart-items"]').innerHTML = items.length ? items.map(p => `<p data-test="cart-item">${p.name} - $${p.price.toFixed(2)}</p>`).join('') : '<p data-test="empty-cart">Your cart is empty.</p>'; })();
+</script></body></html>
